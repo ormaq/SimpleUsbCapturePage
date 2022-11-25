@@ -1,0 +1,60 @@
+<video id="myVidPlayer" controls muted autoplay></video>
+<script type="text/javascript">
+    //Selector for your <video> element
+    const video = document.querySelector('#myVidPlayer');
+
+    //Core
+    window.navigator.mediaDevices.getUserMedia({ video: {
+      width: { min: 1024, ideal: 1280, max: 1920 },
+    height: { min: 576, ideal: 720, max: 1080 }
+    } , audio: true })
+        .then(stream => {
+            video.srcObject = stream;
+            video.onloadedmetadata = (e) => {
+                video.play();
+            };
+        })
+        .catch( () => {
+            alert('You have give browser the permission to run Webcam and mic ;( ');
+        });
+
+</script>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Usb capture card input</title>
+<body>
+
+    <p>Volume</p>
+    <input id="volume" type="range" min="0" max="1" step="0.1" value="0.5"/>
+
+</body>
+
+<script type="text/javascript">
+navigator.getUserMedia = navigator.getUserMedia ||navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+     var curr_volume = .5;
+  document.getElementById('volume').addEventListener('change', function() {
+			curr_volume = this.value;
+      });	
+	
+var aCtx;
+var analyser;
+var microphone;
+if (navigator.getUserMedia) {
+  navigator.getUserMedia(
+    {audio: true}, 
+    function(stream) {
+      aCtx = new AudioContext();
+	  gain_node = aCtx.createGain();
+	   gain_node.gain.value = curr_volume;
+      microphone = aCtx.createMediaStreamSource(stream);
+      var destination=aCtx.destination;
+      microphone.connect(destination);
+    },
+    function(){ console.log("Error 003.")}
+  );
+}
+</script>
+
+</head>
+
+</html>
