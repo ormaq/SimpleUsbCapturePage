@@ -1,39 +1,46 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <!-- Include the required JavaScript libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+  <!-- Create a video element to display the video from the webcam -->
 
-<!-- Include the required JavaScript libraries -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <video id="webcam-video" controls style="text-align: center;"></video>
 
-<!-- Create a video element to display the video from the webcam -->
-<video id="webcam-video" controls></video>
-
-<!-- Request access to the user's microphone and webcam -->
-<script>
-  // Ask for audio and video access
-  navigator.mediaDevices.getUserMedia({ video: {
-      width: { min: 1024, ideal: 1280, max: 1920 },
-    height: { min: 576, ideal: 720, max: 1080 }
-    } , audio: true })
-    .then(function(stream) {
-      // Set the source of the video element to the stream from the user's webcam
-      $('#webcam-video')[0].srcObject = stream;
-
-      // Play the video
-      $('#webcam-video')[0].play();
+  <!-- Request access to the user's microphone and webcam -->
+  <script>
+    // Ask for audio and video access
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        width: { min: 1024, ideal: 1920, max: 1920 },
+        height: { min: 576, ideal: 1080, max: 1080 }
+      }, audio: {
+        autoGainControl: false,
+        channelCount: 2,
+        echoCancellation: false,
+        latency: 0,
+        noiseSuppression: false,
+        sampleRate: 48000,
+        sampleSize: 16,
+        volume: 1.0
+      }
     })
-    .catch(function(error) {
-      // Handle any errors
-      console.error('Error accessing the microphone and webcam', error);
-    });
-</script>
+      .then(function (stream) {
+        // Set the source of the video element to the stream from the user's webcam
+        $('#webcam-video')[0].srcObject = stream;
 
+        // Play the video
+        $('#webcam-video')[0].play();
+      })
+      .catch(function (error) {
+        // Handle any errors
+        console.error('Error accessing the microphone and webcam', error);
+      });
+  </script>
 
-
-
-
-
-<title>Usb capture card input</title>
+  <title>Usb capture card input</title>
 
 </head>
 
